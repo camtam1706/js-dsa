@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Two Pointers Simulation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <style>
+        .pointer {
+            font-size: 0.75rem;
+            font-weight: bold;
+            position: absolute;
+            top: -1.5rem;
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .pointer-end {
+            top: 2.5rem;
+        }
+
+        .box {
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            text-align: center;
+            border: 2px solid #d1d5db;
+            border-radius: 0.5rem;
+            position: relative;
+            margin: 0 4px;
+            background-color: #f9fafb;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .active {
+            background-color: #fef3c7;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen font-sans leading-relaxed text-gray-800">
+    <header
+        class="sticky top-0 z-50 bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg py-6 text-center">
+        <h1 class="text-3xl font-bold animate-pulse mb-2">🔀 Two Pointers Visual Simulation</h1>
+    </header>
+
+    <main class="max-w-4xl mx-auto py-10 space-y-10">
+
+        <!-- 📖 Giải thích -->
+        <section>
+            <div class="bg-white p-6 rounded-lg shadow space-y-4">
+                <h2 class="text-2xl font-semibold text-indigo-600">📖 What is Two Pointers?</h2>
+                <p class="text-sm text-gray-700">
+                    The <strong>Two Pointers</strong> technique uses two pointers to efficiently solve problems on arrays/strings, reducing time complexity from <code>O(n²)</code>
+                    to <code>O(n)</code> in many cases.
+                </p>
+                <ul class="text-sm list-disc ml-6 text-gray-700">
+                    <li>
+                        <strong>Opposite Direction:</strong> One pointer from the beginning, one from the end → move inward (typically for sorted arrays).
+                    </li>
+                    <li>
+                        <strong>Same Direction (Sliding Window):</strong> Both pointers move forward → identify a continuous subarray that satisfies a condition.
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Opposite Direction -->
+        <section>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-semibold text-blue-600 mb-4">🔁 Opposite Direction: Find Pair with Sum = 10
+                </h2>
+                <div class="flex justify-center items-center mb-4" id="array-container"></div>
+                <div class="text-center mb-4">
+                    <button onclick="runOppositeStep()"
+                        class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">▶ Next Step</button>
+                </div>
+                <div class="bg-gray-100 p-4 rounded text-sm font-mono">
+                    <strong>Current Sum:</strong> <span id="current-sum" class="text-blue-700"></span><br>
+                    <strong>Console Log:</strong>
+                    <pre id="console-log" class="mt-2 whitespace-pre-wrap text-xs text-gray-800"></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sliding Window -->
+        <section>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-semibold text-green-600 mb-4">📦 Sliding Window: Min Subarray with Sum ≥ 7</h2>
+                <div class="flex justify-center items-center mb-4" id="sliding-container"></div>
+                <div class="text-center mb-4">
+                    <button onclick="runSlidingStep()"
+                        class="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700">▶ Next Step</button>
+                </div>
+                <div class="bg-gray-100 p-4 rounded text-sm font-mono">
+                    <strong>Current Sum:</strong> <span id="window-sum" class="text-green-700"></span><br>
+                    <strong>Console Log:</strong>
+                    <pre id="sliding-log" class="mt-2 whitespace-pre-wrap text-xs text-gray-800"></pre>
+                </div>
+            </div>
+        </section>
+        <!-- Code Example Section -->
+        <section>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-semibold text-purple-600 mb-4">💡 Code Example: Find 2 numbers whose sum equals target</h2>
+                <p class="text-sm text-gray-700 mb-4">
+                    Below is an example using the <strong>two pointers (opposite direction)</strong> technique to find a pair of numbers in a sorted array such that their sum equals the target.
+                </p>
+
+                <pre class="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto">
+  <code class="language-javascript">// Input: sorted array, target sum
+  function twoSum(arr, target) {
+    let left = 0;
+    let right = arr.length - 1;
+  
+    while (left < right) {
+      const sum = arr[left] + arr[right];
+      
+      if (sum === target) {
+        return [arr[left], arr[right]];
+      } else if (sum < target) {
+        left++;
+      } else {
+        right--;
+      }
+    }
+  
+    return null; // No pair found
+  }
+  
+  // Example:
+  const result = twoSum([1, 3, 4, 6, 9], 10);
+  console.log(result); // 👉 [1, 9]</code>
+      </pre>
+
+                <p class="text-sm text-gray-700 mt-4">
+                    ✅ This technique is highly efficient when the array is already sorted, reducing time complexity from <code>O(n²)</code> to <code>O(n)</code>.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center text-sm text-gray-600 py-4 border-t border-gray-300 mt-10">
+        &copy; 2025 Made by <strong>CAMNV</strong>. All rights reserved.
+    </footer>
+
+    <script>
+        // Opposite Direction
+        const arr = [1, 3, 4, 6, 9];
+        let left = 0, right = arr.length - 1;
+        const target = 10;
+        const log = [];
+
+        function renderArray() {
+            const container = document.getElementById('array-container');
+            container.innerHTML = '';
+            arr.forEach((val, idx) => {
+                const box = document.createElement('div');
+                box.className = 'box';
+                box.textContent = val;
+                if (idx === left) {
+                    box.innerHTML = `<div class="pointer text-red-500">left</div>${val}`;
+                    box.classList.add('active');
+                }
+                if (idx === right) {
+                    box.innerHTML = `<div class="pointer text-blue-500">right</div>${val}`;
+                    box.classList.add('active');
+                }
+                if (left === right && idx === left) {
+                    box.innerHTML = `<div class="pointer text-purple-600">🎯</div>${val}`;
+                    box.classList.add('bg-yellow-300');
+                }
+                container.appendChild(box);
+            });
+        }
+
+        function runOppositeStep() {
+            if (left >= right) return;
+            const sum = arr[left] + arr[right];
+            document.getElementById('current-sum').textContent = `${arr[left]} + ${arr[right]} = ${sum}`;
+
+            if (sum === target) {
+                log.push(`✅ Found: ${arr[left]} + ${arr[right]} = ${sum}`);
+                left = right;
+            } else if (sum < target) {
+                log.push(`🔎 ${arr[left]} + ${arr[right]} = ${sum} < ${target} → Move left ➡`);
+                left++;
+            } else {
+                log.push(`🔎 ${arr[left]} + ${arr[right]} = ${sum} > ${target} → Move right ⬅`);
+                right--;
+            }
+
+            renderArray();
+            document.getElementById('console-log').textContent = log.join('\n');
+        }
+
+        renderArray();
+
+        // Sliding Window
+        const nums = [2, 3, 1, 4, 5];
+        let start = 0, end = 0, sum = 0, minLen = Infinity;
+        const slidingLog = [];
+
+        function renderSliding() {
+            const container = document.getElementById('sliding-container');
+            container.innerHTML = '';
+            nums.forEach((val, idx) => {
+                const box = document.createElement('div');
+                box.className = 'box';
+                box.textContent = val;
+                if (idx === start) {
+                    box.innerHTML = `<div class="pointer text-green-600">start</div>${val}`;
+                    box.classList.add('active');
+                }
+                if (idx === end) {
+                    box.innerHTML = `<div class="pointer pointer-end text-yellow-500">end</div>${val}`;
+                    box.classList.add('active');
+                }
+                container.appendChild(box);
+            });
+        }
+
+        function runSlidingStep() {
+            if (end >= nums.length) return;
+            sum += nums[end];
+            slidingLog.push(`Add nums[${end}] = ${nums[end]} → sum = ${sum}`);
+            while (sum >= 7) {
+                minLen = Math.min(minLen, end - start + 1);
+                slidingLog.push(`✅ sum ≥ 7 → update minLen = ${minLen}, subtract nums[${start}] = ${nums[start]}`);
+                sum -= nums[start++];
+            }
+            end++;
+            renderSliding();
+            document.getElementById('window-sum').textContent = `sum = ${sum}`;
+            document.getElementById('sliding-log').textContent = slidingLog.join('\n');
+        }
+
+        renderSliding();
+    </script>
+</body>
+
+</html>
