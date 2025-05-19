@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Remove Duplicates Benchmark</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .box {
+      width: 48px;
+      height: 48px;
+      line-height: 48px;
+      text-align: center;
+      border: 2px solid #d1d5db;
+      border-radius: 0.5rem;
+      background-color: #f9fafb;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+      margin: 0 4px;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen font-sans leading-relaxed text-gray-800">
+  <header class="sticky top-0 z-50 bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg py-6 text-center">
+    <h1 class="text-3xl font-bold animate-pulse mb-2">🧪 Benchmark: Remove Duplicates</h1>
+  </header>
+
+  <main class="max-w-6xl mx-auto pt-10 space-y-10">
+    <section class="bg-white p-6 rounded-lg shadow space-y-4">
+      <h2 class="text-2xl font-semibold text-indigo-600">🔧 Settings</h2>
+      <label class="block text-sm font-medium text-gray-700">
+        Array Size:
+        <input type="number" id="sizeInput" class="border p-2 w-32 ml-2 rounded" value="100000" min="1">
+      </label>
+      <button onclick="runBenchmark()" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        ▶️ Run Benchmark
+      </button>
+    </section>
+
+    <section class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-2xl font-semibold text-green-600 mb-4">⏱ Benchmark Results</h2>
+      <div id="result" class="space-y-3 font-mono text-sm bg-gray-100 p-4 rounded"></div>
+      <canvas id="chart" class="mt-6"></canvas>
+    </section>
+  </main>
+
+  <footer class="text-center text-sm text-gray-600 py-4 border-t border-gray-300 mt-10">
+    &copy; 2025 Made by <strong>CAMNV</strong>. All rights reserved.
+  </footer>
+
+  <script>
+    let chart;
+
+    function generateSortedArray(size) {
+      const arr = [];
+      let val = 1;
+      for (let i = 0; i < size; i++) {
+        if (Math.random() < 0.3) val++;
+        arr.push(val);
+      }
+      return arr;
+    }
+
+    function removeWithTwoPointers(arr) {
+      if (arr.length === 0) return [];
+      let slow = 0;
+      for (let fast = 1; fast < arr.length; fast++) {
+        if (arr[fast] !== arr[slow]) {
+          slow++;
+          arr[slow] = arr[fast];
+        }
+      }
+      return arr.slice(0, slow + 1);
+    }
+
+    function removeWithSet(arr) {
+      return [...new Set(arr)];
+    }
+
+    function removeWithFilter(arr) {
+      return arr.filter((num, i) => i === 0 || num !== arr[i - 1]);
+    }
+
+    function removeWithReduce(arr) {
+      return arr.reduce((acc, val) => {
+        if (acc.length === 0 || acc[acc.length - 1] !== val) acc.push(val);
+        return acc;
+      }, []);
+    }
+
+    function benchmark(fn, arr) {
+      const t0 = performance.now();
+      fn(arr);
+      const t1 = performance.now();
+      return (t1 - t0).toFixed(2);
+    }
+
+    function runBenchmark() {
+      const size = parseInt(document.getElementById("sizeInput").value);
+      const base = generateSortedArray(size);
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = `<p class="text-gray-500">Generating array of size ${size}...</p>`;
+
+      setTimeout(() => {
+        const result = {
+          "Two Pointers": benchmark(removeWithTwoPointers, [...base]),
+          "Set": benchmark(removeWithSet, [...base]),
+          "Filter": benchmark(removeWithFilter, [...base]),
+          "Reduce": benchmark(removeWithReduce, [...base])
+        };
+
+        resultDiv.innerHTML = `
+          <ul class="list-disc list-inside space-y-1">
+            ${Object.entries(result).map(([k, v]) => `<li><strong>${k}</strong>: ${v} ms</li>`).join('')}
+          </ul>
+        `;
+
+        const labels = Object.keys(result);
+        const data = Object.values(result).map(Number);
+
+        if (chart) chart.destroy();
+        chart = new Chart(document.getElementById("chart"), {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Execution Time (ms)',
+              data: data,
+              backgroundColor: [
+                '#3b82f6',
+                '#10b981',
+                '#f59e0b',
+                '#8b5cf6'
+              ]
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      }, 50);
+    }
+  </script>
+</body>
+
+</html>
