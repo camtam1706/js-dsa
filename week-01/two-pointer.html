@@ -47,22 +47,25 @@
         <h1 class="text-3xl font-bold animate-pulse mb-2">🔀 Two Pointers Visual Simulation</h1>
     </header>
 
-    <main class="max-w-4xl mx-auto py-10 space-y-10">
+    <main class="max-w-4xl mx-auto pt-10 space-y-10">
 
         <!-- 📖 Giải thích -->
         <section>
             <div class="bg-white p-6 rounded-lg shadow space-y-4">
                 <h2 class="text-2xl font-semibold text-indigo-600">📖 What is Two Pointers?</h2>
                 <p class="text-sm text-gray-700">
-                    The <strong>Two Pointers</strong> technique uses two pointers to efficiently solve problems on arrays/strings, reducing time complexity from <code>O(n²)</code>
+                    The <strong>Two Pointers</strong> technique uses two pointers to efficiently solve problems on
+                    arrays/strings, reducing time complexity from <code>O(n²)</code>
                     to <code>O(n)</code> in many cases.
                 </p>
                 <ul class="text-sm list-disc ml-6 text-gray-700">
                     <li>
-                        <strong>Opposite Direction:</strong> One pointer from the beginning, one from the end → move inward (typically for sorted arrays).
+                        <strong>Opposite Direction:</strong> One pointer from the beginning, one from the end → move
+                        inward (typically for sorted arrays).
                     </li>
                     <li>
-                        <strong>Same Direction (Sliding Window):</strong> Both pointers move forward → identify a continuous subarray that satisfies a condition.
+                        <strong>Same Direction (Sliding Window):</strong> Both pointers move forward → identify a
+                        continuous subarray that satisfies a condition.
                     </li>
                 </ul>
             </div>
@@ -105,9 +108,11 @@
         <!-- Code Example Section -->
         <section>
             <div class="bg-white p-6 rounded-lg shadow">
-                <h2 class="text-2xl font-semibold text-purple-600 mb-4">💡 Code Example: Find 2 numbers whose sum equals target</h2>
+                <h2 class="text-2xl font-semibold text-purple-600 mb-4">💡 Code Example: Find 2 numbers whose sum equals
+                    target</h2>
                 <p class="text-sm text-gray-700 mb-4">
-                    Below is an example using the <strong>two pointers (opposite direction)</strong> technique to find a pair of numbers in a sorted array such that their sum equals the target.
+                    Below is an example using the <strong>two pointers (opposite direction)</strong> technique to find a
+                    pair of numbers in a sorted array such that their sum equals the target.
                 </p>
 
                 <pre class="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto">
@@ -137,7 +142,50 @@
       </pre>
 
                 <p class="text-sm text-gray-700 mt-4">
-                    ✅ This technique is highly efficient when the array is already sorted, reducing time complexity from <code>O(n²)</code> to <code>O(n)</code>.
+                    ✅ This technique is highly efficient when the array is already sorted, reducing time complexity from
+                    <code>O(n²)</code> to <code>O(n)</code>.
+                </p>
+            </div>
+        </section>
+
+        <!-- Code Example: Same Direction -->
+        <section>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-2xl font-semibold text-green-600 mb-4">💡 Code Example: Two Pointers – Same Direction
+                </h2>
+                <p class="text-sm text-gray-700 mb-4">
+                    This example demonstrates the <strong>sliding window technique</strong> using two pointers that move
+                    in the same direction. The goal is to find the <code>minimum length subarray</code> with sum ≥
+                    target.
+                </p>
+
+                <pre class="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto">
+  <code class="language-javascript">// Find the minimal length of a contiguous subarray with sum ≥ target
+  function minSubArrayLen(target, nums) {
+    let left = 0, sum = 0, minLen = Infinity;
+  
+    for (let right = 0; right < nums.length; right++) {
+      sum += nums[right];
+  
+      while (sum >= target) {
+        minLen = Math.min(minLen, right - left + 1);
+        sum -= nums[left++];
+      }
+    }
+  
+    return minLen === Infinity ? 0 : minLen;
+  }
+  
+  // Example:
+  const nums = [2, 3, 1, 2, 4, 3];
+  const result = minSubArrayLen(7, nums);
+  console.log(result); // 👉 Output: 2 (because [4,3] is the shortest)
+  </code>
+      </pre>
+
+                <p class="text-sm text-gray-700 mt-4">
+                    ✅ This technique is efficient for problems involving contiguous subarrays or substrings, reducing
+                    time complexity from <code>O(n²)</code> to <code>O(n)</code>.
                 </p>
             </div>
         </section>
